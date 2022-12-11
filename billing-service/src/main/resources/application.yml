@@ -1,0 +1,50 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: billing-service
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${KEYCLOAK_URL:http://localhost:8080}/realms/DigitalMedia
+            tokenUri: ${KEYCLOAK_URL:http://localhost:8080}/realms/DigitalMedia/protocol/openid-connect/token
+        registration:
+          keycloak:
+            clientId: microservicios
+            clientSecret: 9koG9oxOOTPVTSsjXVbyCEFn1k7Mn3BN
+            authorizationGrantType: client_credentials
+            scope: openid
+            redirect-uri: http://localhost:3000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+    enabled: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

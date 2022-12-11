@@ -1,0 +1,135 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - '5439:5439'
+    networks:
+      - local-keycloak
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  keycloak:
+    depends_on:
+      - postgres
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_PASSWORD: 1234
+      KC_DB_USERNAME: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+    image: quay.io/keycloak/keycloak:18.0.0
+    command: start-dev
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - local-keycloak
+
+  mongo-db:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpass
+      MONGO_INITDB_DATABASE: moviesdb
+    networks:
+      - local-keycloak
+
+  eureka-server:
+    depends_on: 
+      - keycloak
+    build: ./eureka-server
+    image: eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - local-keycloak
+    restart: always
+
+  gateway-service:
+    depends_on: 
+      - eureka-server
+    build: ./gateway-service
+    image: gateway-service
+    container_name: gateway-service
+    ports:
+      - "8082:8082"
+    environment: 
+      EUREKA_URL: http://eureka-server:8761/eureka
+      KEYCLOAK_URL: http://keycloak:8080
+    networks:
+      - local-keycloak
+    restart: always
+
+  movies-service:
+    depends_on:
+      - eureka-server
+      - mongo-db
+    build: ./movies-service
+    image: movies-service
+    container_name: movies-service
+    ports:
+      - "8084:8084"
+    environment: 
+      DB_URL: mongodb://mongo-db:27017/moviesdb 
+      EUREKA_URL: http://eureka-server:8761/eureka
+      KEYCLOAK_URL: http://keycloak:8080
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpass
+      MONGO_INITDB_DATABASE: moviesdb
+    networks:
+      - local-keycloak
+    restart: always
+
+  users-service:
+    depends_on:
+      - eureka-server
+      - mongo-db
+    build: ./users-service
+    image: users-service
+    container_name: users-service
+    ports:
+      - "8083:8083"
+    environment: 
+      DB_URL: mongodb://mongo-db:27017/moviesdb 
+      EUREKA_URL: http://eureka-server:8761/eureka
+      KEYCLOAK_URL: http://keycloak:8080
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpass
+      MONGO_INITDB_DATABASE: moviesdb
+    networks:
+      - local-keycloak
+    restart: always
+
+  billing-service:
+    depends_on:
+      - eureka-server
+    build: ./billing-service
+    image: billing-service
+    container_name: billing-service
+    ports:
+      - "8085:8085"
+    environment: 
+      EUREKA_URL: http://eureka-server:8761/eureka
+      KEYCLOAK_URL: http://keycloak:8080
+    networks:
+      - local-keycloak
+    restart: always
+
+networks:
+  local-keycloak:
+
+volumes:
+  db:

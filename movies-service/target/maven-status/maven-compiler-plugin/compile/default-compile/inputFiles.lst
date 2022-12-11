@@ -1,0 +1,16 @@
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\MoviesServiceApplication.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\config\SwaggerConfig.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\exception\MovieNotFoundException.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\model\dto\MovieDto.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\service\MovieService.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\mapper\MovieMapper.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\model\dto\CreateMovieRequest.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\controller\MoviesController.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\service\IMovieService.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\model\dto\AddCommentRequest.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\config\ErrorAttributesConfig.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\model\dto\UpdateMovieRequest.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\config\OAuth2ResourceServerSecurityConfiguration.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\model\Movie.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\repository\IMovieRepository.java
+D:\DH\BackEnd II\Hidalgo_Fabian_Nicolas\movies-service\src\main\java\com\fnh\movies\config\KeyCloakJwtAuthenticationConverter.java
